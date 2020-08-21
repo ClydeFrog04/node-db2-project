@@ -9,6 +9,7 @@ router.post("/", async (req, res) => {
     const newVehicle = await db.createVehicle({
         vin: req.body.vin,
         make: req.body.make,
+        year: req.body.year,
         model: req.body.model,
         mileage: req.body.mileage,
         transType: req.body.transType,
@@ -30,6 +31,16 @@ router.get("/", async (req, res) => {
     } catch (e) {
         console.log(e.stack);
         res.status(500).json({error: "Error getting vehicles"});
+    }
+});
+
+router.get("/:vin", async (req, res) => {
+    const vehicle = await db.getByVin(req.params.vin);
+    try {
+        res.status(200).json(vehicle);
+    } catch (e) {
+        console.log(e.stack);
+        res.status(500).json({error: "Error getting vehicle"});
     }
 });
 
