@@ -1,12 +1,17 @@
 export {};
 const express = require("express");
 const db = require("./vehiclesDb");
+const {
+    validateVin,
+    validateVehicle
+} = require("../middleware/vehicles");
 
 const router = express.Router();
 
 //create
-router.post("/", async (req, res) => {
+router.post("/",validateVehicle, async (req, res) => {
     const newVehicle = await db.createVehicle({
+        //using req.body.<name> instead of just sending req.body in case req.body has something else in it
         vin: req.body.vin,
         make: req.body.make,
         year: req.body.year,
@@ -34,8 +39,9 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:vin", async (req, res) => {
-    const vehicle = await db.getByVin(req.params.vin);
+router.get("/:vin", validateVin, (req, res) => {
+    //todo: can get rid of try/catch since no longer async
+    const vehicle = req.body.vehicle;
     try {
         res.status(200).json(vehicle);
     } catch (e) {
