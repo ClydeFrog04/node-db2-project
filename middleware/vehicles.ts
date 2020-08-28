@@ -3,8 +3,8 @@ const db = require("../vehicles/vehiclesDb");
 
 
 const validateVin = async (req, res, next) => {
-    const vehicle = await db.getByVin(req.params.vin);
     try {
+        const vehicle = await db.getByVin(req.params.vin);
         if(vehicle) {
             req.body.vehicle = vehicle;
             next();

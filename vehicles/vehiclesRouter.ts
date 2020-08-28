@@ -30,8 +30,8 @@ router.post("/",validateVehicle, async (req, res) => {
 
 //read
 router.get("/", async (req, res) => {
-    const vehicles = await db.get();
     try {
+        const vehicles = await db.get();
         res.status(200).json(vehicles);
     } catch (e) {
         console.log(e.stack);
@@ -40,7 +40,6 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:vin", validateVin, (req, res) => {
-    //todo: can get rid of try/catch since no longer async
     const vehicle = req.body.vehicle;
     try {
         res.status(200).json(vehicle);

@@ -12,7 +12,7 @@ function getByVin(vin) {
 }
 
 function createVehicle(vehicle) {
-    return db("vehicles").insert(vehicle)
+    return db("vehicles").insert(vehicle).returning("id")//the returning tells postgres to return the ids array
         .then(ids => {
             return getByVin(ids[0]);
         });
@@ -24,9 +24,9 @@ function updateVehicle(vin, changes) {
         .update(changes);
 }
 
-function remove(vin) {
-    const deletedVehicle = getByVin(vin);
-    db("vehicles")
+async function remove(vin) {
+    const deletedVehicle = await getByVin(vin);
+    await db("vehicles")
         .where("vin", vin)
         .delete();
     return deletedVehicle;
