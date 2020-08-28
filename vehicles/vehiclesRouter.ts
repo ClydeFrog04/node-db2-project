@@ -31,7 +31,7 @@ router.post("/",validateVehicle, async (req, res) => {
 //read
 router.get("/", async (req, res) => {
     try {
-        const vehicles = await db.get();
+        const vehicles = await db.get("vehicles1");
         res.status(200).json(vehicles);
     } catch (e) {
         console.log(e.stack);

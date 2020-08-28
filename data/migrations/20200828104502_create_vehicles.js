@@ -1,10 +1,11 @@
 exports.up = async function(knex) {
-    await knex.schema.createTable("Vehicles", tableBuilder => {
+    await knex.schema.createTable("vehicles", tableBuilder => {
         //not nullables
         tableBuilder.increments("vin");//shorthand for table.integer("vin").notNullable().unique().primary();
         tableBuilder.text("make").notNullable();
         tableBuilder.text("model").notNullable();
         tableBuilder.integer("mileage").notNullable();
+        tableBuilder.integer("year").notNullable().defaultTo(0);
 
         //nullables
         tableBuilder.text("transType");
@@ -13,5 +14,5 @@ exports.up = async function(knex) {
 };
 
 exports.down = async function(knex) {
-    await knex.schema.dropTableIfExists("Vehicles");
+    await knex.schema.dropTableIfExists("vehicles");
 };
